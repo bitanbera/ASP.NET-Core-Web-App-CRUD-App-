@@ -1,0 +1,27 @@
+﻿@page
+@using System.Data.SqlClient;
+@{
+    try
+    {
+        string id = Request.Query["id"];
+        string connectionString = "Data Source=LAPTOP-C35DMLHN;Initial Catalog=bb;Integrated Security=True";
+        using (SqlConnection connection = new SqlConnection(connectionString))
+        {
+            connection.Open();
+            string sql = "DELETE FROM student WHERE id=@id";
+            using (SqlCommand command = new SqlCommand(sql, connection))
+            {
+                command.Parameters.AddWithValue("@id", id);
+                command.ExecuteNonQuery();
+
+            }
+            connection.Close();
+        }
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine(ex.Message);
+    }
+
+    Response.Redirect("/Student/Index");
+}
